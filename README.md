@@ -29,17 +29,17 @@ The Segment Anything Model (SAM) has demonstrated remarkable zero-shot capabilit
 ![overall_pipeline](./figs/CAT-SAM.png "overall_pipeline")
 
 ## Results
-1-Shot Adaptation:
+### 1-Shot Adaptation:
+|      Methods      |  WHU  | Kvasir | SBU-Shadow | Average |
+|:-----------------:|:-----:|:------:|:----------:|:-------:|
+| **SAM (baseline)** | 43.5  |  79.0  |    62.4    |  61.6   |
+| **VPT-shallow**    | 60.8  |  79.8  |    68.7    |  69.8   |
+| **VPT-deep**       | 57.8  |  80.4  |    76.0    |  71.4   |
+| **AdaptFormer**    | 83.2  |  76.8  |    77.2    |  79.1   |
+| **LoRA**           | 86.1  |  77.5  |    74.4    |  79.3   |
+| **CAT-SAM-T (Ours)** | 86.8 |  83.4  |    78.0    |  82.7   |
+| **CAT-SAM-A (Ours)** | 88.2 |  85.4  |    81.9    |  85.2   |
 
-| Methods        | WHU  | Kvasir | SBU-Shadow | Average |
-|----------------|------|--------|------------|---------|
-| **SAM (baseline)** | 43.5 | 79.0   | 62.4       | 61.6    |
-| **VPT-shallow**   | 60.8 | 79.8   | 68.7       | 69.8    |
-| **VPT-deep**      | 57.8 | 80.4   | 76.0       | 71.4    |
-| **AdaptFormer**   | 83.2 | 76.8   | 77.2       | 79.1    |
-| **LoRA**          | 86.1 | 77.5   | 74.4       | 79.3    |
-| **CAT-SAM-T (Ours)**  | 86.8 | 83.4   | 78.0       | 82.7    |
-| **CAT-SAM-A (Ours)**  | 88.2 | 85.4   | 81.9       | 85.2    |
 
 ## Installation
 Please clone our project to your local machine and prepare our environment by the following commands:
@@ -54,7 +54,7 @@ The code has been tested on A100/A6000/V100 with Python 3.9, CUDA 11.7 and Pytor
 
 
 
-## Prepare the datasets
+## Data
 Please refer to the README.md in the dataset-specific folders under `./data` to prepare each of them.
 
 ## Train
