@@ -11,7 +11,8 @@
         <a href="https://scholar.google.com/citations?user=ce-2e8EAAAAJ&hl">Ruijie Ren</a>,
         <a href="https://ieeexplore.ieee.org/author/37405025600">Xiaoqin Zhang</a>,
         <a href="https://scholar.google.com/citations?user=z84rLjoAAAAJ&hl=en">Ling Shao</a>,
-        <a href="https://scholar.google.com/citations?user=uYmK-A0AAAAJ&hl=en">Shijian Lu</a>  (* indicates co-first authors with equal contributions.)
+        <a href="https://scholar.google.com/citations?user=uYmK-A0AAAAJ&hl=en">Shijian Lu^</a> 
+       <br>(* indicates co-first authors with equal contributions. ^ indicates the corresponding author.)
     </em>
 </h5><p align="center">
 
