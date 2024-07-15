@@ -41,8 +41,6 @@ The Segment Anything Model (SAM) has demonstrated remarkable zero-shot capabilit
 | **CAT-SAM-T (Ours)**  | 86.8 | 83.4   | 78.0       | 82.7    |
 | **CAT-SAM-A (Ours)**  | 88.2 | 85.4   | 81.9       | 85.2    |
 
-![Visualizations](./figs/CAT-SAM.png "overall_pipeline")
-
 ## Installation
 Please clone our project to your local machine and prepare our environment by the following commands:
 ```
