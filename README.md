@@ -46,17 +46,13 @@ The Segment Anything Model (SAM) has demonstrated remarkable zero-shot capabilit
 Please clone our project to your local machine and prepare our environment by the following commands:
 ```
 $: cd cat-sam
-$: conda env create -f environment.yaml
+$: conda create -n cat-sam python=3.9
+$: python -m pip install -r requirements.txt
 $: conda activate cat-sam
 (cat-sam) $: python -m pip install -e .
 ```
 
-The code has been tested on A100/A6000/V100 with Python 3.9, CUDA 11.7, Pytorch 1.13.1 and torchvision 0.14.1. Any other devices may require to update the code for compatibility.
-
-Additionally, you need to install:
-- numpy=1.24.2
-- opencv-python=4.7.0.72
-- tqdm
+The code has been tested on A100/A6000/V100 with Python 3.9, CUDA 11.7 and Pytorch 1.13.1. Any other devices and environments may require to update the code for compatibility.
 
 
 ## Data
