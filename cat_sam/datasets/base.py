@@ -6,6 +6,7 @@ import torch
 from PIL import Image
 import numpy as np
 from torch.utils.data import Dataset
+from cat_sam.datasets.transforms import Compose
 
 from cat_sam.datasets.misc import generate_prompts_from_mask
 
@@ -15,9 +16,11 @@ class BaseSegDataset(Dataset):
     def __init__(
             self,
             dataset_config: Union[Dict, List[Dict]],
-            label_threshold: Union[int, None] = 128
+            label_threshold: Union[int, None] = 128,
+            transforms: List = None
     ):
         self.label_threshold = label_threshold
+        self.transforms = Compose(transforms) if transforms else None
 
         if isinstance(dataset_config, Dict):
             dataset_config_list = [dataset_config]
@@ -65,6 +68,10 @@ class BaseSegDataset(Dataset):
             else:
                 image = cv2.resize(image, (gt_mask.shape[1], gt_mask.shape[0]))
 
+        if self.transforms is not None:
+            transformed = self.transforms(image=image, mask=gt_mask)
+            image, gt_mask = transformed["image"], transformed['mask']
+
         return dict(
             images=image, gt_masks=gt_mask, index_name=index_name
         )
@@ -89,6 +96,30 @@ class BaseSegDataset(Dataset):
         batch_dict['object_masks'] = \
             [torch.from_numpy(item) if item is not None else None for item in batch_dict['object_masks']]
 
+        # pad the prompt points with placeholders (-1) to make sure that each prompt has the same number of points
+        point_coords, point_labels = [], []
+        for item in batch_dict['point_coords']:
+            # give a None value to the images without any prompt points
+            if item is None:
+                point_coords.append(None)
+                point_labels.append(None)
+            # all the labels of prompt points are either foreground points (label=1) or placeholder (label=-1)
+            else:
+                _point_coords, _point_labels = item, []
+                max_num_coords = max(len(_p_c) for _p_c in _point_coords)
+                for _p_c in _point_coords:
+                    _point_labels.append([1 for _ in _p_c])
+
+                    curr_num_coords = len(_p_c)
+                    if curr_num_coords < max_num_coords:
+                        _p_c.extend([[0, 0] for _ in range(max_num_coords - curr_num_coords)])
+                        _point_labels[-1].extend([-1 for _ in range(max_num_coords - curr_num_coords)])
+
+                point_coords.append(torch.FloatTensor(_point_coords))
+                point_labels.append(torch.LongTensor(_point_labels))
+        batch_dict['point_coords'] = point_coords
+        batch_dict['point_labels'] = point_labels
+
         # give a None value to the images without any prompt boxes
         batch_dict['box_coords'] = \
             [torch.FloatTensor(item) if item is not None else None for item in batch_dict['box_coords']]
@@ -103,10 +134,15 @@ class BinaryCATSAMDataset(BaseSegDataset):
     def __init__(
             self,
             train_flag: bool,
+            offline_prompt_points: Union[str, List[str]] = None,
+            prompt_point_num: int = 1,
+            max_object_num: int = None,
             object_connectivity: int = 8,
             area_threshold: int = 20,
             relative_threshold: bool = True,
             relative_threshold_ratio: float = 0.001,
+            ann_scale_factor: int = 8,
+            noisy_mask_threshold: float = 0.5,
             **super_args
     ):
         super(BinaryCATSAMDataset, self).__init__(**super_args)
@@ -115,16 +151,38 @@ class BinaryCATSAMDataset(BaseSegDataset):
             object_connectivity=object_connectivity,
             area_threshold=area_threshold,
             relative_threshold=relative_threshold,
-            relative_threshold_ratio=relative_threshold_ratio
+            relative_threshold_ratio=relative_threshold_ratio,
+            max_object_num=max_object_num,
+            prompt_point_num=prompt_point_num,
+            ann_scale_factor=ann_scale_factor,
+            noisy_mask_threshold=noisy_mask_threshold
         )
+
+        self.offline_prompt_points = None
+        if offline_prompt_points is not None:
+            self.offline_prompt_points = {}
+
+            if isinstance(offline_prompt_points, str):
+                offline_prompt_points = [offline_prompt_points]
+            for item in offline_prompt_points:
+                self.offline_prompt_points.update(item)
 
 
     def __getitem__(self, index):
         ret_dict = super(BinaryCATSAMDataset, self).__getitem__(index)
-        box_coords, object_masks = generate_prompts_from_mask(
-            gt_mask=ret_dict['gt_masks'], **self.prompt_kwargs
+        point_coords, box_coords, noisy_object_masks, object_masks = generate_prompts_from_mask(
+            gt_mask=ret_dict['gt_masks'],
+            tgt_prompts=[random.choice(['point', 'box', 'mask'])] if self.train_flag else ['point', 'box'],
+            **self.prompt_kwargs
         )
+        # offline random prompt points for evaluation
+        if self.offline_prompt_points is not None:
+            point_coords = self.offline_prompt_points[ret_dict['index_name']]
+
         ret_dict.update(
-            box_coords=box_coords, object_masks=object_masks
+            point_coords=point_coords,
+            box_coords=box_coords,
+            noisy_object_masks=noisy_object_masks,
+            object_masks=object_masks
         )
         return ret_dict

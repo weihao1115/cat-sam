@@ -5,7 +5,8 @@ from os.path import join
 import torch
 from torch.utils.data import DataLoader
 from tqdm import tqdm
-from misc import get_idle_gpu, set_randomness, batch_to_cuda
+from misc import get_idle_gpu, set_randomness
+from train import batch_to_cuda
 
 from cat_sam.datasets.whu import WHUDataset
 from cat_sam.datasets.kvasir import KvasirDataset
@@ -25,7 +26,7 @@ def parse():
         help="The num_workers argument used for the testing dataloaders. Default to be 4."
     )
     parser.add_argument(
-        '--batch_size', default=1, type=int,
+        '--batch_size', default=2, type=int,
         help="The batch size for the testing dataloader. Default to be 2."
     )
     parser.add_argument(

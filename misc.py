@@ -26,6 +26,20 @@ def get_idle_gpu(gpu_num: int = 1, id_only: bool = True) -> List[GPU]:
         return sorted_gpus
 
 
+def get_idle_port() -> str:
+    """
+    find an idle port to used for distributed learning
+
+    """
+    pscmd = "netstat -ntl |grep -v Active| grep -v Proto|awk '{print $4}'|awk -F: '{print $NF}'"
+    procs = os.popen(pscmd).read()
+    procarr = procs.split("\n")
+    tt = str(random.randint(15000, 30000))
+    if tt not in procarr:
+        return tt
+    else:
+        return get_idle_port()
+
 
 def set_randomness():
     random.seed(3407)
@@ -42,16 +56,3 @@ def set_randomness():
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
     torch.set_float32_matmul_precision('medium')
-
-
-def batch_to_cuda(batch, device):
-    for key in batch.keys():
-        if key in ['images', 'gt_masks', 'point_coords', 'box_coords', 'noisy_object_masks', 'object_masks']:
-            batch[key] = [
-                item.to(device=device, dtype=torch.float32) if item is not None else None for item in batch[key]
-            ]
-        elif key in ['point_labels']:
-            batch[key] = [
-                item.to(device=device, dtype=torch.long) if item is not None else None for item in batch[key]
-            ]
-    return batch
