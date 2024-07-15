@@ -2,7 +2,6 @@
 </h1>
 <p align="center">
 <a href="[https://arxiv.org/abs/2402.03631](https://arxiv.org/abs/2402.03631)"><img  src="https://img.shields.io/badge/arXiv-Paper-<COLOR>.svg" ></a>
-<h4 align="center">This is the official repository of the paper <a href="https://arxiv.org/abs/2402.03631">Conditional Tuning Network for Few-Shot Adaptation of Segmentation Anything Model</a>.</h4>
 <h5 align="center">
     <em>
         <a href="https://scholar.google.com/citations?user=yGKsEpAAAAAJ&hl=en">Aoran Xiao*</a>,
