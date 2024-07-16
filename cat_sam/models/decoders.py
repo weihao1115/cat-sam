@@ -4,7 +4,7 @@ import torch
 from torch import nn
 
 from cat_sam.models.module_lib import MLP, LayerNorm2d
-from cat_sam.models.segment_anything_vpt.modeling import TwoWayTransformer, MaskDecoder
+from cat_sam.models.segment_anything_ext.modeling import TwoWayTransformer, MaskDecoder
 
 
 class MaskDecoderHQ(MaskDecoder):

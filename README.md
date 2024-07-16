@@ -47,8 +47,8 @@ Please clone our project to your local machine and prepare our environment by th
 ```
 $: cd cat-sam
 $: conda create -n cat-sam python=3.9
-$: python -m pip install -r requirements.txt
 $: conda activate cat-sam
+$: python -m pip install -r requirements.txt
 (cat-sam) $: python -m pip install -e .
 ```
 

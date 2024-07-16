@@ -3,16 +3,16 @@
 Please follow the commands below to prepare the SBU-Shadow dataset:
 ```
 $: pwd
-/your_dir/CAT-SAM
-$: cd ./datasets/sbu
+/your_dir/cat-sam
+$: cd ./data/sbu
 $: wget https://www3.cs.stonybrook.edu/~cvl/content/datasets/shadow_db/SBU-shadow.zip
 $: unzip SBU-shadow.zip
 $: rm SBU-shadow.zip
-$: conda activate cat_sam
-(cat_sam) $: ls
+$: conda activate cat-sam
+(cat-sam) $: ls
 preprocess.py  README.md  SBU-shadow
-(cat_sam) $: python preprocess.py
-(cat_sam) $: ls
+(cat-sam) $: python preprocess.py
+(cat-sam) $: ls
 preprocess.py  README.md  SBU-shadow  test.json  train.json
 ```
 

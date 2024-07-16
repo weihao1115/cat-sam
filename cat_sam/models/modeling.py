@@ -7,7 +7,7 @@ from torch import nn
 
 from cat_sam.models.encoders import SAMImageEncodeWrapper, SAMPromptEncodeWrapper, CATSAMTImageEncoder, CATSAMAImageEncoder
 from cat_sam.models.decoders import MaskDecoderHQ
-from cat_sam.models.segment_anything_vpt import sam_model_registry
+from cat_sam.models.segment_anything_ext import sam_model_registry
 
 
 sam_ckpt_path_dict = dict(

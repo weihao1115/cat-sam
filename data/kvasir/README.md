@@ -3,7 +3,7 @@
 Please follow the commands below to prepare the Kvasir-SEG dataset:
 ```
 $: pwd
-/your_dir/CAT-SAM
+/your_dir/cat-sam
 $: cd ./data/kvasir
 $: gdown https://drive.google.com/uc?id=1YiGHLw4iTvKdvbT6MgwO9zcCv8zJ_Bnb
 $: gdown https://drive.google.com/uc?id=1Y2z7FD5p5y31vkZwQQomXFRB0HutHyao
@@ -11,10 +11,10 @@ $: unzip TrainDataset.zip
 $: unzip TestDataset.zip
 $: rm TrainDataset.zip TestDataset.zip
 $: conda activate cat_sam
-(cat_sam) $: ls
+(cat-sam) $: ls
 preprocess.py  README.md  TestDataset  TrainDataset
-(cat_sam) $: python preprocess.py
-(cat_sam) $: ls
+(cat-sam) $: python preprocess.py
+(cat-sam) $: ls
 preprocess.py  README.md  TestDataset  test.json  TrainDataset  train.json
 ```
 
