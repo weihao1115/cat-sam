@@ -22,8 +22,9 @@ The Segment Anything Model (SAM) has demonstrated remarkable zero-shot capabilit
 
 
 ## News
+- **(2024/8)** CAT-SAM is selected as an :sparkles: Oral Paper :sparkles: at ECCV 2024!
 - **(2024/7)** We released the training code. Thank you for your waiting!
-- **(2024/6)** CAT-SAM is accepted by ECCV 2024! See you in Milano!
+- **(2024/7)** CAT-SAM is accepted by ECCV 2024! See you in Milano!
 
 
 ## Method
@@ -132,5 +133,3 @@ If you find this work helpful, please kindly consider citing our paper:
 
 ## Acknowledgement
 We acknowledge the use of the following public resources throughout this work: [Segment Anything Model](https://github.com/facebookresearch/segment-anything), [HQ-SAM](https://github.com/SysCV/sam-hq), [EVP](https://github.com/NiFangBaAGe/Explicit-Visual-Prompt) and [VPT](https://github.com/kmnp/vpt).
-
-
