@@ -120,8 +120,8 @@ $: conda activate cat-sam
 
 
 ## Inference
-We provide user-friendly API for model inference by either PyTorch-alone APIs. 
-Below is an example to conduct inference of CAT-A models on an image sample from Kvasir dataset.
+We provide user-friendly API for model inference using either PyTorch-alone APIs. 
+Below is an example of conducting inference of CAT-SAM-A models on an image sample from the Kvasir dataset.
 ```python
 import numpy as np
 import torch
