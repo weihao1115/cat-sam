@@ -277,7 +277,9 @@ class BaseCATSAM(nn.Module):
                 "Image encoder features have not been registered! Please call set_infer_img() before infer().")
 
         if isinstance(point_coords, torch.Tensor):
-            if len(point_coords.shape) <= 3:
+            if len(point_coords.shape) == 2:
+                point_coords = [point_coords.unsqueeze(0)]
+            elif len(point_coords.shape) == 3:
                 point_coords = [point_coords]
             elif len(point_coords.shape) == 4:
                 point_coords = [p_c for p_c in point_coords]
@@ -287,7 +289,9 @@ class BaseCATSAM(nn.Module):
             raise RuntimeError
 
         if isinstance(box_coords, torch.Tensor):
-            if len(box_coords.shape) <= 2:
+            if len(box_coords.shape) == 1:
+                box_coords = [box_coords.unsqueeze(0)]
+            elif len(box_coords.shape) <= 2:
                 box_coords = [box_coords]
             elif len(box_coords.shape) == 3:
                 box_coords = [b_c for b_c in box_coords]

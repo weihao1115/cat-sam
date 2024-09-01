@@ -118,6 +118,44 @@ $: conda activate cat-sam
 ```
 
 
+## Inference
+We provide user-friendly API for model inference by either PyTorch-alone APIs. 
+Below is an example to conduct inference of CAT-A models on an image sample from Kvasir dataset.
+```python
+import numpy as np
+import torch
+from PIL import Image
+
+from cat_sam.models.modeling import CATSAMA
+
+cat_sam_a = CATSAMA(model_type="vit_l")
+ckpt = torch.load("{your cat-sam root}/pretrained/sbu_cat-a_vit-l_1shot.pth", map_location="cpu")
+cat_sam_a.load_state_dict(ckpt["model"])
+cat_sam_a = cat_sam_a.to("cuda")
+cat_sam_a.eval()
+
+rgb_image_path = "{your cat-sam root}/data/kvasir/TrainDataset/image/101.png"
+rgb_image = Image.open(rgb_image_path).convert('RGB')
+rgb_image = np.array(rgb_image, dtype=np.float32)
+# (3, H, W) 0-255 torch.Tensor
+rgb_image = torch.from_numpy(rgb_image).permute(2, 0, 1).cuda()
+cat_sam_a.set_infer_img(img=rgb_image)
+
+# 1. Inference by a bounding box
+# (4,)
+box_coords = torch.Tensor([160, 120, 280, 230]).cuda()
+pred_masks = cat_sam_a.infer(box_coords=box_coords)
+# (H, W) 0-1 torch.Tensor mask
+pred_mask = pred_masks[0].squeeze()
+
+# 2. Inference by a foreground point
+# (1, 2)
+point_coords = torch.Tensor([[200, 170]]).cuda()
+pred_masks = cat_sam_a.infer(point_coords=point_coords)
+# (H, W) 0-1 torch.Tensor mask
+pred_mask = pred_masks[0].squeeze()
+```
+You can switch the model class to `CATSAMT` and pick up a corresponding checkpoint to conduct the same inference.
 
 ## Citation
 If you find this work helpful, please kindly consider citing our paper:
